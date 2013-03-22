@@ -28,6 +28,10 @@ void loop()
   
   Stop(3000);
   
+  RotateClockWise(3000);
+  
+  Stop(3000);
+  
   Reverse(1000);
   
   Stop(1000);
@@ -79,6 +83,12 @@ void RotateCounterClockWise(int time)
     delay(time);
 }
 
+void RotateClockWise(int time)
+{
+    rotatecw(); 
+    delay(time);
+}
+
 void rotateccw()
 {
   //left motor
@@ -94,6 +104,25 @@ void rotateccw()
   buff2[0]=0x80; //start byte - do not change
   buff2[1]=0x00; //Device type byte
   buff2[2]=0x02; //Motor number and direction byte; motor two=02,03
+  buff2[3]=0x40; //Motor speed "0 to 128" (ex 100 is 64 in hex)
+  Serial.write(buff2, 4);
+}
+
+void rotatecw()
+{
+  //left motor
+  unsigned char buff1[4];
+  buff1[0]=0x80; //start byte - do not change
+  buff1[1]=0x00; //Device type byte
+  buff1[2]=0x00; //Motor number and direction byte; motor one =00,01
+  buff1[3]=0x40; //Motor speed "0 to 128" (ex 100 is 64 in hex)
+  Serial.write(buff1, 4);
+
+  //right motor
+  unsigned char buff2[4];
+  buff2[0]=0x80; //start byte - do not change
+  buff2[1]=0x00; //Device type byte
+  buff2[2]=0x03; //Motor number and direction byte; motor two=02,03
   buff2[3]=0x40; //Motor speed "0 to 128" (ex 100 is 64 in hex)
   Serial.write(buff2, 4);
 }

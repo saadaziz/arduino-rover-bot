@@ -1,3 +1,8 @@
+/* RoverShop Rover Basic Movement controls demo 
+** So easy a dad could do it...
+** Modified from examples provided by: 
+** http://www.robotshop.com/content/PDF/sample-code-robotshop-rover-arduino.pdf
+*/
 int motor_reset = 2; //digital pin 2 assigned to motor reset
 
 void setup()
@@ -15,14 +20,86 @@ void setup()
 
 void loop()
 {
-  motorforward();
-  delay(2000);
-  motorstop();
+  Forward(1000);
+  
+  Stop(1000);
+  
+  RotateCounterClockWise(3000);
+  
+  Stop(3000);
+  
+  Reverse(1000);
+  
+  Stop(1000);
 
 }
 
+/* setMotorspeed(int speed)
+** This function was ripped from:
+** http://www.pololu.com/docs/0J44/6.7.1
+** I am planning to use the libraries to control final versions of my bot's movements, left this as a placeholder 
+** for others to get started with the same, will share code once I get it done.
+**/
+// speed should be a number from -3200 to 3200
+void setMotorSpeed(int speed)
+{
+  if (speed == 0)
+  {
+    motorstop();    
+  }
+  else if (speed < 0)
+  {
+  }
+  else
+  {
+  }
+}
+
+void Forward(int time)
+{
+  motorforward(0x80);
+  delay(time);
+}
+
+void Stop(int time)
+{
+  setMotorSpeed(0);  
+  delay(time);
+}
+
+void Reverse(int time)
+{
+  motorreverse();
+  delay(time);
+}
+
+void RotateCounterClockWise(int time)
+{
+    rotateccw(); 
+    delay(time);
+}
+
+void rotateccw()
+{
+  //left motor
+  unsigned char buff1[4];
+  buff1[0]=0x80; //start byte - do not change
+  buff1[1]=0x00; //Device type byte
+  buff1[2]=0x01; //Motor number and direction byte; motor one =00,01
+  buff1[3]=0x40; //Motor speed "0 to 128" (ex 100 is 64 in hex)
+  Serial.write(buff1, 4);
+
+  //right motor
+  unsigned char buff2[4];
+  buff2[0]=0x80; //start byte - do not change
+  buff2[1]=0x00; //Device type byte
+  buff2[2]=0x02; //Motor number and direction byte; motor two=02,03
+  buff2[3]=0x40; //Motor speed "0 to 128" (ex 100 is 64 in hex)
+  Serial.write(buff2, 4);
+}
+
 //subroutine motor forward
-void motorforward()
+void motorforward(unsigned char speedValue)
 {
   //left motor
   unsigned char buff1[4];
@@ -41,22 +118,49 @@ void motorforward()
   Serial.write(buff2, 4);
 }
 
+//subroutine reverse at half speedd
+void motorreverse()
+{
+//left motor
+unsigned char buff3[4];
+buff3[0]=0x80; //start byte - do not change
+buff3[1]=0x00; //Device type byte
+buff3[2]=0x00; //Motor number and direction byte; motor one =00,01
+buff3[3]=0x45; //Motor speed "0 to 128" (ex 100 is 64 in hex)
+Serial.write(buff3, 4);
+//right motor
+unsigned char buff4[4];
+buff4[0]=0x80; //start byte - do not change
+buff4[1]=0x00; //Device type byte
+buff4[2]=0x02; //Motor number and direction byte; motor two=02,03
+buff4[3]=0x45; //Motor speed "0 to 128" (ex 100 is 64 in hex)
+Serial.write(buff4, 4);
+}
+
 //Motor all stop
 void motorstop()
 {
-  //left motor
-  unsigned char buff3[4];
-  buff3[0]=0x80; //start byte - do not change
-  buff3[1]=0x00; //Device type byte
-  buff3[2]=0x00; //Motor number and direction byte; motor one =00,01
-  buff3[3]=0x00; //Motor speed "0 to 128" (ex 100 is 64 in hex)
+  digitalWrite(motor_reset, LOW);
+  delay(50);
+  digitalWrite(motor_reset, HIGH);
+  delay(50);
+}
+
+//Motor all stop v2
+void motorstop2()
+{
+//left motor
+unsigned char buff3[4];
+buff3[0]=0x80; //start byte - do not change
+buff3[1]=0x00; //Device type byte
+buff3[2]=0x00; //Motor number and direction byte; motor one =00,01
+buff3[3]=0x00; //Motor speed "0 to 128" (ex 100 is 64 in hex)
   Serial.write(buff3, 4);
-  
-  //right motor
-  unsigned char buff4[4];
-  buff4[0]=0x80; //start byte - do not change
-  buff4[1]=0x00; //Device type byte
-  buff4[2]=0x02; //Motor number and direction byte; motor two=02,03
-  buff4[3]=0x00; //Motor speed "0 to 128" (ex 100 is 64 in hex)
+//right motor
+unsigned char buff4[4];
+buff4[0]=0x80; //start byte - do not change
+buff4[1]=0x00; //Device type byte
+buff4[2]=0x02; //Motor number and direction byte; motor two=02,03
+buff4[3]=0x00; //Motor speed "0 to 128" (ex 100 is 64 in hex)
   Serial.write(buff4, 4);
 }

@@ -1,0 +1,51 @@
+/* http://arduino.cc/en/Tutorial/Sweep */
+#include <Servo.h>
+
+int ledPin = 13;
+ 
+Servo myservo;  // create servo object to control a servo 
+                 // a maximum of eight servo objects can be created 
+  
+int pos = 0;    // variable to store the servo position 
+  
+int potpin = 0;  // analog pin used to connect the potentiometer
+int val;    // variable to read the value from the analog pin 
+  
+void setup() 
+{ 
+  pinMode(1,OUTPUT);
+
+  myservo.attach(9);  // attaches the servo on pin 9 to the servo object 
+
+  pinMode(ledPin, OUTPUT);
+  Serial.begin(19200);
+  
+  Serial.println("Ready");
+
+} 
+  
+void Print(char* text)
+{
+  String tempString=text;
+  String formattedString = "\r\n" + tempString + "\r\n";
+  while (! Serial); // Wait untilSerial is ready 
+    Serial.println(formattedString);
+}
+  
+void loop() 
+{ 
+  for(pos = 0; pos < 180; pos += 1)  // goes from 0 degrees to 180 degrees 
+   {                                  // in steps of 1 degree 
+     myservo.write(pos);              // tell servo to go to position in variable 'pos' 
+     delay(15);                       // waits 15ms for the servo to reach the position 
+   } 
+   for(pos = 180; pos>=1; pos-=1)     // goes from 180 degrees to 0 degrees 
+   {                                
+     myservo.write(pos);              // tell servo to go to position in variable 'pos' 
+     delay(15);                       // waits 15ms for the servo to reach the position 
+   } 
+
+  
+}
+
+

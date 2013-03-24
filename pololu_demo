@@ -150,20 +150,20 @@ void motorforward(unsigned char speedValue)
 //subroutine reverse at half speedd
 void motorreverse()
 {
-//left motor
-unsigned char buff3[4];
-buff3[0]=0x80; //start byte - do not change
-buff3[1]=0x00; //Device type byte
-buff3[2]=0x00; //Motor number and direction byte; motor one =00,01
-buff3[3]=0x45; //Motor speed "0 to 128" (ex 100 is 64 in hex)
-Serial.write(buff3, 4);
-//right motor
-unsigned char buff4[4];
-buff4[0]=0x80; //start byte - do not change
-buff4[1]=0x00; //Device type byte
-buff4[2]=0x02; //Motor number and direction byte; motor two=02,03
-buff4[3]=0x45; //Motor speed "0 to 128" (ex 100 is 64 in hex)
-Serial.write(buff4, 4);
+  //left motor
+  unsigned char buff3[4];
+  buff3[0]=0x80; //start byte - do not change
+  buff3[1]=0x00; //Device type byte
+  buff3[2]=0x00; //Motor number and direction byte; motor one =00,01
+  buff3[3]=0x45; //Motor speed "0 to 128" (ex 100 is 64 in hex)
+  Serial.write(buff3, 4);
+  //right motor
+  unsigned char buff4[4];
+  buff4[0]=0x80; //start byte - do not change
+  buff4[1]=0x00; //Device type byte
+  buff4[2]=0x02; //Motor number and direction byte; motor two=02,03
+  buff4[3]=0x45; //Motor speed "0 to 128" (ex 100 is 64 in hex)
+  Serial.write(buff4, 4);
 }
 
 //Motor all stop
@@ -178,18 +178,18 @@ void motorstop()
 //Motor all stop v2
 void motorstop2()
 {
-//left motor
-unsigned char buff3[4];
-buff3[0]=0x80; //start byte - do not change
-buff3[1]=0x00; //Device type byte
-buff3[2]=0x00; //Motor number and direction byte; motor one =00,01
-buff3[3]=0x00; //Motor speed "0 to 128" (ex 100 is 64 in hex)
+  //left motor
+  unsigned char buff3[4];
+  buff3[0]=0x80; //start byte - do not change
+  buff3[1]=0x00; //Device type byte
+  buff3[2]=0x00; //Motor number and direction byte; motor one =00,01
+  buff3[3]=0x00; //Motor speed "0 to 128" (ex 100 is 64 in hex)
   Serial.write(buff3, 4);
-//right motor
-unsigned char buff4[4];
-buff4[0]=0x80; //start byte - do not change
-buff4[1]=0x00; //Device type byte
-buff4[2]=0x02; //Motor number and direction byte; motor two=02,03
-buff4[3]=0x00; //Motor speed "0 to 128" (ex 100 is 64 in hex)
+  //right motor
+  unsigned char buff4[4];
+  buff4[0]=0x80; //start byte - do not change
+  buff4[1]=0x00; //Device type byte
+  buff4[2]=0x02; //Motor number and direction byte; motor two=02,03
+  buff4[3]=0x00; //Motor speed "0 to 128" (ex 100 is 64 in hex)
   Serial.write(buff4, 4);
 }
